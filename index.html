@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>स्वतंत्रता दिवस की शुभकामनाएँ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:wght@400;700&family=Poppins:wght@700&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Tiro Devanagari Hindi', serif;
+            /* NEW: Code-generated watercolor/smoky background */
+            background-color: #0a182c; /* गहरा नीला बेस */
+            background-image: 
+                radial-gradient(ellipse at 50% 0%, #FF9933 0%, rgba(255,153,51,0) 40%), /* ऊपर केसरिया */
+                radial-gradient(ellipse at 50% 100%, #138808 0%, rgba(19,136,8,0) 50%),   /* नीचे हरा */
+                radial-gradient(ellipse at 50% 50%, #FFFFFF 0%, rgba(255,255,255,0) 60%); /* बीच में सफ़ेद */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; 
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 400px;
+            width: 90%;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #sender-greeting {
+            display: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 10px #FF9933, 0 0 20px #FF9933, 
+                0 0 30px #138808, 0 0 40px #138808,
+                inset 0 0 15px #FFFFFF;
+            border: 2px solid #fff;
+        }
+        
+        video {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .main-heading {
+            font-size: 2.8em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .sub-heading, .input-label {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* NEW: Flowing Tricolor Animation */
+        .tricolor-text {
+            background: linear-gradient(90deg, #FF9933 25%, #FFFFFF 50%, #138808 75%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8));
+            animation: flow-text 10s linear infinite;
+        }
+
+        #name-input {
+            width: calc(100% - 30px);
+            padding: 12px 15px;
+            font-size: 1.2em;
+            font-family: 'Tiro Devanagari Hindi', serif;
+            text-align: center;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            margin-top: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: box-shadow 0.3s ease;
+        }
+        #name-input::placeholder { color: rgba(255,255,255,0.6); }
+        #name-input:focus {
+            outline: none;
+            box-shadow: 0 0 15px 4px #FF9933, 0 0 15px 4px #138808;
+        }
+
+        #share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+            color: #00002E;
+            text-shadow: none;
+            border: 2px solid #fff;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            width: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+        #share-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* NEW: Flowing text animation keyframes */
+        @keyframes flow-text {
+            to {
+                background-position: -200% center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            .video-wrapper { margin-bottom: 15px; }
+            #sender-greeting { font-size: 1.4em; margin-bottom: 15px; }
+            .main-heading { font-size: 2.1em; margin-bottom: 8px; }
+            .sub-heading { font-size: 1em; margin-bottom: 15px; }
+            .input-label { font-size: 1.1em; margin-top: 10px; }
+            #name-input { padding: 10px; font-size: 1.1em; margin-top: 8px; }
+            #share-button { font-size: 1.1em; padding: 12px 15px; margin-top: 20px; gap: 8px;}
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="fireworks-canvas"></canvas>
+
+    <div class="container">
+        
+        <div id="sender-greeting" class="tricolor-text"></div>
+
+        <div class="video-wrapper">
+            <video id="greeting-video" src="rakshabandhan.mp4" autoplay loop muted playsinline></video>
+        </div>
+
+        <h1 class="main-heading tricolor-text">स्वतंत्रता दिवस</h1>
+        <p class="sub-heading tricolor-text">आपको और आपके परिवार को स्वतंत्रता दिवस की हार्दिक शुभकामनाएँ!</p>
+
+        <label for="name-input" class="input-label tricolor-text">आपका शुभ नाम:</label>
+        <input type="text" id="name-input" placeholder="यहाँ अपना नाम लिखें">
+        
+        <button id="share-button">
+            <svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 448 512" fill="#128C7E"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.8 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.5-7c-18.9-29.4-29.6-63.3-29.6-98.5 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5c.1 101.8-82.7 184.5-184.5 184.5zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+            WhatsApp पर शेयर करें
+        </button>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+        const fireworks = [];
+        const triColors = ['#FF9933', '#FFFFFF', '#138808'];
+
+        function Firework(sx, sy, tx, ty) {
+            this.x = sx; this.y = sy; this.sx = sx; this.sy = sy; this.tx = tx; this.ty = ty;
+            this.distanceToTarget = Math.sqrt(Math.pow(tx - sx, 2) + Math.pow(ty - sy, 2));
+            this.distanceTraveled = 0;
+            this.coordinates = []; this.coordinateCount = 3;
+            while (this.coordinateCount--) { this.coordinates.push([this.x, this.y]); }
+            this.angle = Math.atan2(ty - sy, tx - sx);
+            this.speed = 2; this.acceleration = 1.05; this.brightness = Math.random() * 20 + 80;
+        }
+        Firework.prototype.update = function (index) {
+            this.coordinates.pop(); this.coordinates.unshift([this.x, this.y]);
+            this.speed *= this.acceleration;
+            const vx = Math.cos(this.angle) * this.speed;
+            const vy = Math.sin(this.angle) * this.speed;
+            this.distanceTraveled = Math.sqrt(Math.pow(this.x - this.sx, 2) + Math.pow(this.y - this.sy, 2));
+            if (this.distanceTraveled >= this.distanceToTarget) {
+                createParticles(this.tx, this.ty); fireworks.splice(index, 1);
+            } else { this.x += vx; this.y += vy; }
+        };
+        Firework.prototype.draw = function () {
+            ctx.beginPath();
+            ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+            ctx.lineTo(this.x, this.y);
+            ctx.strokeStyle = `hsl(45, 100%, ${this.brightness}%)`;
+            ctx.stroke();
+        };
+        function Particle(x, y) {
+            this.x = x; this.y = y; this.coordinates = []; this.coordinateCount = 5;
+            while (this.coordinateCount--) { this.coordinates.push([this.x, this.y]); }
+            this.angle = Math.random() * Math.PI * 2; this.speed = Math.random() * 10 + 1;
+            this.friction = 0.95; this.gravity = 1;
+            this.color = triColors[Math.floor(Math.random() * triColors.length)];
+            this.alpha = 1; this.decay = Math.random() * 0.03 + 0.015;
+        }
+        Particle.prototype.update = function (index) {
+            this.coordinates.pop(); this.coordinates.unshift([this.x, this.y]);
+            this.speed *= this.friction; this.x += Math.cos(this.angle) * this.speed;
+            this.y += Math.sin(this.angle) * this.speed + this.gravity;
+            this.alpha -= this.decay;
+            if (this.alpha <= this.decay) { particles.splice(index, 1); }
+        };
+        Particle.prototype.draw = function () {
+            ctx.beginPath();
+            ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+            ctx.lineTo(this.x, this.y);
+            const r = parseInt(this.color.slice(1, 3), 16), g = parseInt(this.color.slice(3, 5), 16), b = parseInt(this.color.slice(5, 7), 16);
+            ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${this.alpha})`;
+            ctx.stroke();
+        };
+        function createParticles(x, y) { let particleCount = 40; while (particleCount--) { particles.push(new Particle(x, y)); } }
+        function loop() {
+            requestAnimationFrame(loop);
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(0, 0, 20, 0.4)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'lighter';
+            let i = fireworks.length; while (i--) { fireworks[i].draw(); fireworks[i].update(i); }
+            let j = particles.length; while (j--) { particles[j].draw(); particles[j].update(j); }
+            if (Math.random() < 0.06) { fireworks.push(new Firework(canvas.width / 2, canvas.height, Math.random() * canvas.width, Math.random() * canvas.height / 2)); }
+        }
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('greeting-video');
+            const senderGreeting = document.getElementById('sender-greeting');
+            const nameInput = document.getElementById('name-input');
+            const shareButton = document.getElementById('share-button');
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromName = urlParams.get('from');
+            if (fromName) {
+                const senderName = decodeURIComponent(fromName.replace(/\+/g, ' '));
+                senderGreeting.textContent = `${senderName} की तरफ से शुभकामनाएँ`;
+                senderGreeting.style.display = 'block';
+            }
+            function enableSound() {
+                video.muted = false;
+                video.play().catch(e => console.log("Play with sound failed:", e));
+            }
+            document.body.addEventListener('click', enableSound, { once: true });
+            
+            loop();
+
+            shareButton.addEventListener('click', function() {
+                const userName = nameInput.value.trim();
+                if (!userName) {
+                    alert('शेयर करने के लिए कृपया अपना नाम लिखें।');
+                    return;
+                }
+                const baseUrl = window.location.origin + window.location.pathname;
+                const shareableLink = `${baseUrl}?from=${encodeURIComponent(userName)}`;
+                const shareText = `🇮🇳 ${userName} ने आपको स्वतंत्रता दिवस की हार्दिक शुभकामनाएँ भेजी हैं! 🇮🇳\n\nइस लिंक पर क्लिक करें:`;
+
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'स्वतंत्रता दिवस की शुभकामनाएँ!',
+                        text: shareText,
+                        url: shareableLink
+                    }).catch(err => console.log("Share failed:", err));
+                } else {
+                    navigator.clipboard.writeText(shareableLink).then(() => {
+                        alert('लिंक कॉपी हो गया है! अब आप इसे शेयर कर सकते हैं।');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+<script type="text/javascript">
+	atOptions = {
+		'key' : '3287e21ef7b567843043058d0a66e680',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/3287e21ef7b567843043058d0a66e680/invoke.js"></script>
